@@ -40,7 +40,7 @@
 					for( var x=0; x<numSelectors; x++ ){
 						if( $(cur).is(selectors[x]) ){
 							if( !cur.id ){
-								cur.id = "ech"+(new Date).getTime();
+								cur.id = "jqcreateevt"+(new Date).getTime();
 							}
 							
 							matches.push( cur.id );
@@ -63,7 +63,7 @@
 			var $elem = $(document.getElementById(id));
 			
 			// cleanup before entering create handler
-			if( id.indexOf("ech") > -1 ){
+			if( id.substring(0,11) === "jqcreateevt" ){
 				$elem.removeAttr("id");
 			}
 			
