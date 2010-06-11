@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>jQuery Create Event - Eric Hynds</title>
+<link type="text/css" rel="stylesheet" href="http://www.erichynds.com/examples/style.css" />
+<style type="text/css">
+div { margin-bottom:10px }
+#create { font-weight:bold; text-decoration:underline; font-size:14px }
+</style>
+</head>
+<body>
+
+<div id="bar">
+	<h1><a href="http://www.erichynds.com">eric<span>hynds</span></a></h1>
+	<div><a href="http://www.erichynds.com/jquery/jquery-special-create-element">&laquo; Return to Blog Post</a></div>
+</div>
+
+<div id="content">
+	<h2>jQuery "create" Event Demo</h2>
+	
+	<p>This new event duck punches $.fn.domManip to fire a custom "create" event when new, matching elements are inserted into the DOM.</p>
+	<p>Code for this demo:</p>
+
+<pre style="margin-bottom:20px; padding:8px; background:#f1f1f1; width:710px">
+$.fn.geocities(function(){
+   /* 
+      code to make a div look friggin sweet.
+      adds marquee, blink, and a beautiful
+      color scheme.
+   */
+});
+
+// apply plugin to all current div.geocities
+$("div.geocities").geocities();
+
+// apply plugin to all future div.geocities
+$("div.geocities").live("create", function(e){
+	$(this).text("I am a new element!").geocities();
+});
+
+// the "create another" link
+$("a").click(function(){
+	$("div.geocities:last").after('&lt;div class="geocities">&lt;/div>');
+	return false;
+});
+</pre>
+
+	<p><a id="create" href="#">Create another</a></p>
+	<div class="geocities">Welcome to 1999.  Look at me go!!</div>
+</div>
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.create.js"></script>
+<script type="text/javascript">
+// plugin to geocityify a div.  obviously the CSS should go into a class but you get the idea.
+$.fn.geocities = function(){
+	return this.css({
+		border:"5px solid red",
+		padding:"10px",
+		width:"695px",
+		background:"#0042ff",
+		color:"#ffff00",
+		fontWeight:"bold",
+		textTransform:"uppercase"
+	}).contents().wrap("<marquee></marquee>");
+}
+
+$("a").click(function(){
+	$("div.geocities:last").after('<div class="geocities"></div>');
+	return false;
+});
+
+// apply plugin to all div.geocities in the DOM now
+$("div.geocities").geocities();
+
+// apply plugin to all future div.geocities elements
+$("div.geocities").live("create", function(e){
+	$(this).text("I am a new element!").geocities();
+});
+</script>
+
+</body>
+</html>
