@@ -22,7 +22,7 @@
 	};
 
 	$.fn.domManip = function(){
-		var matches = [], nodes = arguments[0], numSelectors = selectors.length, html;
+		var matches = [], nodes = arguments[0], numSelectors = selectors.length, guid = 0, gen = [], html;
 		
 		// if no create events are bound, just fire the original domManip method 
 		if( !numSelectors ){
@@ -40,7 +40,8 @@
 					for( var x=0; x<numSelectors; x++ ){
 						if( $(cur).is(selectors[x]) ){
 							if( !cur.id ){
-								cur.id = "jqcreateevt"+(new Date).getTime();
+								cur.id = "jqcreateevt"+(++guid);
+								gen.push(cur.id); // remember this ID was generated
 							}
 							
 							matches.push( cur.id );
@@ -62,8 +63,8 @@
 		$.each(matches, function(i,id){
 			var $elem = $(document.getElementById(id));
 			
-			// cleanup before entering create handler
-			if( id.substring(0,11) === "jqcreateevt" ){
+			// cleanup generated IDs
+			if( $.inArray(id, gen) !== -1 ){
 				$elem.removeAttr("id");
 			}
 			
