@@ -30,9 +30,9 @@
 		}
 		
 		// from the original $.fn.domManip, deal with function values
-		if ( jQuery.isFunction(value) ){
+		if ( $.isFunction(value) ){
 			return this.each(function(i){
-				var self = jQuery(this);
+				var self = $(this);
 				args[0] = value.call(this, i, table ? self.html() : undefined);
 				self.domManip( args, table, callback );
 			});
