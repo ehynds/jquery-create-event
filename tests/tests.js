@@ -127,6 +127,44 @@ $(function(){
 	 	});
 	});
 	
+	test("replaceWith", function(){
+		expect(2);
+		
+		$(".test-replaceWith").live("create", handler);
+		
+		// add a new node
+		var elem = $('<div class="test-replaceWith"></div>').appendTo("body");
+		
+		// replace target with new html
+		target.replaceWith('<div class="test-replaceWith"></div>');
+		
+		// replace target with an existing node.. should not trigger event
+		target.replaceWith( elem );
+		
+		elem.remove();
+	});
+	
+	test("replaceWith (fn)", function(){
+		expect(2);
+		
+		$(".test-replaceWith-fn").live("create", handler);
+		
+		// add a new node
+		var elem = $('<div class="test-replaceWith-fn"></div>').appendTo("body");
+		
+		// replace target with new html
+	 	target.replaceWith(function(){
+	 		return '<div class="test-replaceWith-fn"></div>';
+		});
+		
+		// replace target with an existing node.. should not trigger event
+		target.replaceWith(function(){
+			return elem;
+	 	});
+	 	
+	 	elem.remove();
+	});
+	
 	test("html", function(){
 		expect(1);
 	 	
