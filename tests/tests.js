@@ -165,10 +165,24 @@ $(function(){
 	 	elem.remove();
 	});
 	
+	test("replaceAll", function(){
+		expect(1);
+		
+		target.html('<span></span><span></span><span></span>');
+		
+		$("p.replaceAll").live("create", handler);
+		
+		// replace target with new html
+		$('<p class="replaceAll"></p>').replaceAll('#target span');
+		
+		// one is returned because the p element is created once, then cloned
+		// two more times.  TODO look into this
+	});
+	
 	test("html", function(){
 		expect(1);
-	 	
-	 	 $("#test-html").live("create", handler);
+		
+		$("#test-html").live("create", handler);
 	 	target.html('<div id="test-html"></div>');
 	});
 	

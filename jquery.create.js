@@ -1,7 +1,7 @@
 // written by eric hynds (erichynds.com)
 
 (function($, _domManip){
-	var selectors = [];
+	var selectors = [], guid = 0;
 
 	$.event.special.create = {
 		add: function( data ){
@@ -22,7 +22,7 @@
 	};
 
 	$.fn.domManip = function(args, table, callback){
-		var value = args[0], matches = [], nodes = arguments[0], numSelectors = selectors.length, guid = 0, gen = [], html;
+		var value = args[0], matches = [], nodes = arguments[0], numSelectors = selectors.length, gen = [], html;
 		
 		// if no create events are bound, just fire the original domManip method 
 		if( !numSelectors ){
@@ -63,7 +63,7 @@
 				}
 			})();
 		}
-		
+	
 		// overwrite the passed in html with the new html
 		arguments[0] = html;
 		
@@ -72,14 +72,14 @@
 		
 		$.each(matches, function(i,id){
 			var $elem = $(document.getElementById(id));
-			
+
 			// cleanup generated IDs
 			if( $.inArray(id, gen) !== -1 ){
 				$elem.removeAttr("id");
 			}
 			
 			// double check to make sure the event hasn't already fired.
-			// can happen with wrap() 
+			// can happen with wrap()
 			if( !$elem.data("jqcreateevt") ){
 				$elem.trigger("create").data("jqcreateevt", true);
 			}
