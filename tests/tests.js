@@ -39,7 +39,7 @@ $(function(){
 		$("#test-append").live("create", handler);
 		target.append('<div id="test-append"></div>');
 	});
-
+	
 	test("append (fn)", function(){
 		expect(1);
 		
@@ -87,7 +87,7 @@ $(function(){
 	 	$("#test-after").live("create", handler);
 	 	target.after('<div id="test-after"></div>');
 	});
-
+	
 	test("after (fn)", function(){
 		expect(1);
 		
@@ -109,6 +109,22 @@ $(function(){
 		
 		$("#test-insertAfter").live("create", handler);
 		$('<div id="test-insertAfter"></div>').insertAfter( target );
+	});
+	
+	test("wrap", function(){
+		expect(1);
+	 	
+	 	$("#test-wrap").live("create", handler);
+	 	target.wrap('<div id="test-wrap"></div>');
+	});
+	
+	test("wrap (fn)", function(){
+		expect(1);
+	 	
+	 	$("#test-wrap-fn").live("create", handler);
+	 	target.wrap(function(){
+	 		return '<div id="test-wrap-fn"></div>';
+	 	});
 	});
 	
 	test("html", function(){

@@ -11,7 +11,7 @@
 		// won't fire in 1.4.2 http://dev.jquery.com/ticket/6202
 		remove: function( data ){
 			var len = selectors.length;
-		
+
 			while(len--){
 				if(selectors[len] === data.selector){
 					selectors.splice(len, 1);
@@ -45,7 +45,7 @@
 			(function walk( element ){
 				element = element || html[0].parentNode;
 				var cur = (element ? element.firstChild : html[0]);
-					
+				
 				while(cur !== null){
 					for( var x=0; x<numSelectors; x++ ){
 						if( $(cur).is(selectors[x]) ){
@@ -69,7 +69,7 @@
 		
 		// inject elems into DOM
 		var ret = _domManip.apply(this, arguments);
-	
+		
 		$.each(matches, function(i,id){
 			var $elem = $(document.getElementById(id));
 			
@@ -78,7 +78,11 @@
 				$elem.removeAttr("id");
 			}
 			
-			$elem.trigger("create");
+			// double check to make sure the event hasn't already fired.
+			// can happen with wrap() 
+			if( !$elem.data("jqcreateevt") ){
+				$elem.trigger("create").data("jqcreateevt", true);
+			}
 		});
 		
 		return ret;
