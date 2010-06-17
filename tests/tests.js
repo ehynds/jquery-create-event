@@ -178,12 +178,20 @@ $(function(){
 		// one is returned because the p element is created once, then cloned
 		// two more times.  TODO look into this
 	});
+
+	test("cloning then insert", function(){
+		expect(1);
+		
+		target.append('<div class="test-clone"></div>');
+		$(".test-clone").live("create", handler);
+	 	target.find(".test-clone").clone().appendTo( target );
+	});
 	
 	test("html", function(){
 		expect(1);
 		
 		$("#test-html").live("create", handler);
-	 	target.html('<div id="test-html"></div>');
+		target.html('<div id="test-html"></div>');
 	});
 	
 	test("html (fn)", function(){
