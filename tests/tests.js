@@ -31,6 +31,18 @@ $(function(){
 		target.append( html.join('') );
 	});
 	
+	test("generated/enumerated IDs", function(){
+		expect(4);
+		var el;
+		
+		$("span.test-id, #test-id").live("create", handler);
+
+		el = $('<span class="test-id"></span>').appendTo(target);
+		equals( el.attr("id"), "", "generated id was removed" );
+		el = $('<span id="test-id"></span>').appendTo(target);
+		equals( el.attr("id"), "test-id", "enumerated ID was not removed" );
+	});
+	
 	module("methods");
 	
 	test("append", function(){
