@@ -16,9 +16,9 @@ $(function(){
 	test("multiple elements, complex html structure", function(){
 		var html = [];
 		
-		expect(2);
+		expect(8);
 	
-		$("span.one").live("create", handler);
+		$("span.one, #test-p, #test-span").live("create", handler);
 		
 		html.push('<div>');
 	 	html.push('<p>the</p>');
@@ -27,8 +27,17 @@ $(function(){
 		html.push('<span class="one">jumped</span>');
 		html.push('<p><span class="one">over</span><span>the</span><div class="one">lazy dog</div>');
 		html.push('</div>');
+		html.push('<p id="test-p"></p>');
+		html.push('<span id="test-span"></span>');
+		html.push('<select><option></option></select><span></span>');
 		
-		target.append( html.join('') );
+		$( html.join('') ).appendTo( target );
+		
+		// now, make sure everything actually made it to the DOM
+		equals( $(".one").length, 4, "node 1: div element with 4 nested .one elements" );
+		equals( $("#test-p").length, 1, "node 2: p element with id test-p" );
+		equals( $("#test-span").length, 1, "node 3: span element with id test-span" );
+		equals( $("select").length, 1, "node 4: select element" );
 	});
 	
 	test("generated/enumerated IDs", function(){

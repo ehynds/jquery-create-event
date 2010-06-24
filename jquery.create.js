@@ -22,7 +22,7 @@
 	};
 
 	$.fn.domManip = function(args, table, callback){
-		var value = args[0], matches = [], nodes = arguments[0], numSelectors = selectors.length, gen = [], html;
+		var value = args[0], matches = [], nodes = arguments[0], numSelectors = selectors.length, gen = [], html = $(), node;
 		
 		// if no create events are bound, just fire the original domManip method 
 		if( !numSelectors ){
@@ -38,23 +38,24 @@
 			});
 		}
 		
-		// crawl through the html structure passed in
+		// crawl through the html structure passed in looking for matching elements
 		for( var i=0, len=nodes.length; i<len; i++ ){
-			html = $(nodes[i]);
+			node = $(nodes[i]);
 			
 			(function walk( element ){
-				element = element || html[0].parentNode;
-				var cur = (element ? element.firstChild : html[0]);
+				element = element || node[0].parentNode;
+				var cur = (element ? element.firstChild : node[0]);
 				
 				while(cur !== null){
 					for( var x=0; x<numSelectors; x++ ){
 						if( $(cur).is(selectors[x]) ){
 							if( !cur.id ){
 								cur.id = "jqcreateevt"+(++guid);
-								gen.push(cur.id); // remember this ID was generated
+								gen.push(cur.id); // remember that this ID was generated
 							}
 							
-							matches.push( cur.id );
+							// remember this match
+							matches.push(cur.id);
 						}
 					}
 				
@@ -62,8 +63,12 @@
 					cur = cur.nextSibling;
 				}
 			})();
+			
+			// the html we started with, but with ids attached to the elements
+			// bound with create.
+			html = html.add(node);
 		}
-	
+		
 		// overwrite the passed in html with the new html
 		arguments[0] = html;
 		
