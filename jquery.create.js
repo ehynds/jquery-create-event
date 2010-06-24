@@ -64,7 +64,7 @@
 				}
 			})();
 			
-			// the html we started with, but with ids attached to the elements
+			// the html we started with, but with ids attached to elements
 			// bound with create.
 			html = html.add(node);
 		}
@@ -75,6 +75,7 @@
 		// inject elems into DOM
 		var ret = _domManip.apply(this, arguments);
 		
+		// for element with a create event...
 		$.each(matches, function(i,id){
 			var $elem = $(document.getElementById(id));
 
