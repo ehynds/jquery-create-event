@@ -209,18 +209,18 @@ $(function(){
 	});
 	
 	test("html", function(){
-		expect(1);
+		expect(3);
 		
-		$("#test-html").live("create", handler);
-		target.html('<div id="test-html"></div>');
+		$("#test-html-div, #test-html-p, span.test-html-span").live("create", handler);
+		target.html('<div id="test-html-div"></div><p id="test-html-p"><span class="test-html-span" /></p>');
 	});
 	
 	test("html (fn)", function(){
-		expect(1);
+		expect(3);
 		
-		$("#test-html-fn").live("create", handler);
+		$("#test-html-fn, #test-html-fn-span, #test-html-fn span").live("create", handler);
 		$("#htmltarget").html(function(){
-			return '<p id="test-html-fn"></p>';
+			return '<p id="test-html-fn"><span /></p><span id="test-html-fn-span" />';
 		});
 	});
 	
@@ -231,7 +231,6 @@ $(function(){
 		
 		el = $("#test-ajax").live("create", handler);
 		target.load('ajax.htm').empty();
-		el.die("create");
 	});
 	
 	test("load selector", function(){
@@ -239,6 +238,5 @@ $(function(){
 		
 		el = $("p:has(span)").live("create", handler);
 		target.load('ajax.htm p');
-		el.die("create");
 	});
 });

@@ -1,6 +1,6 @@
 # jQuery "create" event
 
-This event duck punches `$.fn.domManip` to fire a custom "create" event when new, matching elements are inserted into the DOM.
+This event hijacks `$.fn.domManip` and `$.fn.html` to fire a custom "create" event when new, matching elements are inserted into the DOM.
 
 Use it like:
 	

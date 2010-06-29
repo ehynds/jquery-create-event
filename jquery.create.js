@@ -1,7 +1,8 @@
 // written by eric hynds (erichynds.com)
+// version 1.2 - 6/29/2010
 
-(function($, _domManip){
-	var selectors = [], guid = 0;
+(function($, _domManip, _html){
+	var selectors = [], gen = [], guid = 0, old = {};
 
 	$.event.special.create = {
 		add: function( data ){
@@ -13,32 +14,44 @@
 			var len = selectors.length;
 
 			while(len--){
-				if(selectors[len] === data.selector){
+				if( selectors[len] === data.selector ){
 					selectors.splice(len, 1);
 					break;
 				}
 			}
 		}
 	};
-
-	$.fn.domManip = function(args, table, callback){
-		var value = args[0], matches = [], nodes = arguments[0], numSelectors = selectors.length, gen = [], html = $(), node;
+	
+	// deal with 99% of DOM manip methods
+	$.fn.domManip = function( args, table, callback ){
 		
 		// if no create events are bound, just fire the original domManip method 
-		if( !numSelectors ){
-			return _domManip.apply(this, arguments);
+		if( !selectors.length || $.isFunction(args[0]) ){
+			return _domManip.apply( this, arguments );
 		}
 		
-		// from the original $.fn.domManip, deal with function values
-		if ( $.isFunction(value) ){
-			return this.each(function(i){
-				var self = $(this);
-				args[0] = value.call(this, i, table ? self.html() : undefined);
-				self.domManip( args, table, callback );
-			});
+		return logic.call( this, _domManip, arguments );
+	};
+	
+	// deal with the remaining 1% (html method)
+	$.fn.html = function( value ){
+		
+		// if no create events are bound, html() is being called as a setter,
+		// or the value is a function, fire the original and peace out.  only string values use innerHTML;
+		// function values use append() which is covered by $.fn.domManip 
+		if( !selectors.length || $.isFunction(value) || value === undefined ){
+			return _html.apply( this, arguments );
 		}
 		
-		// crawl through the html structure passed in looking for matching elements
+		// make value an array
+		arguments[0] = [value];
+		return logic.call( this, _html, arguments );
+	};
+	
+	function logic( method, args ){
+		var node, nodes = args[0], html = $(), numSelectors = selectors.length, matches = [];
+		
+		// crawl through the html structure passed in looking for matching elements.
 		for( var i=0, len=nodes.length; i<len; i++ ){
 			node = $(nodes[i]);
 			
@@ -70,12 +83,12 @@
 		}
 		
 		// overwrite the passed in html with the new html
-		arguments[0] = html;
-		
+		args[0] = html;
+
 		// inject elems into DOM
-		var ret = _domManip.apply(this, arguments);
+		var ret = method.apply(this, args);
 		
-		// for element with a create event...
+		// for elements with a create event...
 		$.each(matches, function(i,id){
 			var $elem = $(document.getElementById(id));
 
@@ -92,6 +105,6 @@
 		});
 		
 		return ret;
-	};
+	}
 	
-})(jQuery, jQuery.fn.domManip);
+})(jQuery, jQuery.fn.domManip, jQuery.fn.html);
