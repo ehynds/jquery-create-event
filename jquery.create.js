@@ -1,5 +1,5 @@
 // written by eric hynds (erichynds.com)
-// version 1.2 - 6/29/2010
+// version 1.3 - 07/03/2010
 
 (function($, _domManip, _html){
 	var selectors = [], gen = [], guid = 0, old = {};
@@ -13,7 +13,7 @@
 		remove: function( data ){
 			var len = selectors.length;
 
-			while(len--){
+			while( len-- ){
 				if( selectors[len] === data.selector ){
 					selectors.splice(len, 1);
 					break;
@@ -79,7 +79,7 @@
 			
 			// the html we started with, but with ids attached to elements
 			// bound with create.
-			html = html.add(node);
+			html = html.add( node );
 		}
 		
 		// overwrite the passed in html with the new html
@@ -90,17 +90,20 @@
 		
 		// for elements with a create event...
 		$.each(matches, function(i,id){
-			var $elem = $(document.getElementById(id));
-
-			// cleanup generated IDs
-			if( $.inArray(id, gen) !== -1 ){
-				$elem.removeAttr("id");
-			}
+			var elem = document.getElementById( id );
 			
-			// double check to make sure the event hasn't already fired.
-			// can happen with wrap()
-			if( !$elem.data("jqcreateevt") ){
-				$elem.trigger("create").data("jqcreateevt", true);
+			if( elem ){
+				// cleanup generated IDs
+				if( $.inArray(id, gen) !== -1 ){
+					elem.removeAttribute("id");
+				}
+			
+				// double check to make sure the event hasn't already fired.
+				// can happen with wrap()
+				if( !$.data( elem, "jqcreateevt") ){
+				 	$.event.trigger("create", {}, elem);
+					$.data(elem, "jqcreateevt", true);
+				}
 			}
 		});
 		
