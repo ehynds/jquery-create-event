@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>jQuery Create Event - Eric Hynds</title>
+<title>jQuery Create Event Demos - Eric Hynds</title>
 <link type="text/css" rel="stylesheet" href="http://www.erichynds.com/examples/style.css" />
+<link type="text/css" rel="stylesheet" href="http://www.erichynds.com/examples/prettify.css" />
 <style type="text/css">
 h2 { margin-top:0 }
 div { margin-bottom:10px }
 #create-new-div { font-weight:bold; text-decoration:underline; font-size:14px }
 </style>
 </head>
-<body>
+<script type="text/javascript" src="http://www.erichynds.com/examples/prettify.js"></script>
+<body onload="prettyPrint()">
 
 <div id="bar">
 	<h1><a href="http://www.erichynds.com">eric<span>hynds</span></a></h1>
@@ -28,7 +30,7 @@ div { margin-bottom:10px }
 	
 	<p>Code for this demo:</p>
 
-<pre style="margin-bottom:20px; padding:8px; background:#f1f1f1; width:710px">
+<pre class="prettyprint" style="margin-bottom:20px; padding:8px; background:#f1f1f1; width:710px">
 $.fn.geocities(function(){
    /* 
       code to make a div look friggin sweet.
@@ -59,6 +61,7 @@ $("#create-new-div").click(function(){
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
 <script type="text/javascript" src="jquery.create.js"></script>
+
 <script type="text/javascript">
 // plugin to geocityify a div.  obviously the CSS should go into a class but you get the idea.
 $.fn.geocities = function(){
