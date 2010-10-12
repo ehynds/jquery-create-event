@@ -1,5 +1,6 @@
 // written by eric hynds (erichynds.com)
-// version 1.3 - 07/03/2010
+// http://www.erichynds.com/jquery/jquery-create-event/
+// version 1.4 - 10/12/2010
 
 (function($, _domManip, _html){
 	var selectors = [], gen = [], guid = 0, old = {};
@@ -39,7 +40,7 @@
 		// if no create events are bound, html() is being called as a setter,
 		// or the value is a function, fire the original and peace out.  only string values use innerHTML;
 		// function values use append() which is covered by $.fn.domManip 
-		if( !selectors.length || $.isFunction(value) || value === undefined ){
+		if( !selectors.length || $.isFunction(value) || typeof value === "undefined" || !value.length ){
 			return _html.apply( this, arguments );
 		}
 		
@@ -54,6 +55,10 @@
 		// crawl through the html structure passed in looking for matching elements.
 		for( var i=0, len=nodes.length; i<len; i++ ){
 			node = $(nodes[i]);
+			
+			if( !node.length ){
+				continue;
+			}
 			
 			(function walk( element ){
 				element = element || node[0].parentNode;

@@ -224,6 +224,16 @@ $(function(){
 		});
 	});
 	
+	test("html (clearing)", function(){
+		expect(1);
+		
+		$("#test-html-clear").live("create", handler);
+		
+		$("#htmltarget").html(function(){
+			return '<span id="test-html-clear"></span>';
+		}).html('');
+	});
+	
 	module("ajax");
 	
 	test("load", function(){
